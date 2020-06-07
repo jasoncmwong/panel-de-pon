@@ -1,6 +1,6 @@
-Tile = Class{}
+Panel = Class{}
 
-function Tile:init(board_x, board_y, type)
+function Panel:init(board_x, board_y, type)
     self.board_x = board_x
     self.board_y = board_y
     self.type = type

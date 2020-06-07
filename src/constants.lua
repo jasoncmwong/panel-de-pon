@@ -9,3 +9,6 @@ WINDOW_HEIGHT = 720
 -- Dimensions of a play board in tiles
 BOARD_WIDTH = 6
 BOARD_HEIGHT = 12
+
+-- Dimensions of a panel in pixels
+PANEL_DIM = 16

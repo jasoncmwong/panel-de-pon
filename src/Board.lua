@@ -5,7 +5,7 @@ function Board:init(x, y, width, height)
     self.y = y              -- Y position of top left corner of board
     self.width = width      -- Width of board in tiles
     self.height = height    -- Height of board in tiles
-    self.tiles = {}         -- Table of tiles in the board
+    self.panels = {}        -- Table of panels in the board
 end
 
 function Board:render()
