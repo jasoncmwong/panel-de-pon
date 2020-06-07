@@ -10,5 +10,8 @@ WINDOW_HEIGHT = 720
 BOARD_WIDTH = 6
 BOARD_HEIGHT = 12
 
+-- Border padding
+BORDER_PAD = 2
+
 -- Dimensions of a panel in pixels
 PANEL_DIM = 16

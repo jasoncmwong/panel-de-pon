@@ -9,4 +9,6 @@ function gen_panel_quads(atlas)
         table.insert(panels, love.graphics.newQuad(x, y, PANEL_DIM, PANEL_DIM, atlas:getDimensions()))
         x = x + PANEL_DIM
     end
+
+    return panels
 end
