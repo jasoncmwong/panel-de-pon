@@ -12,3 +12,7 @@ function gen_panel_quads(atlas)
 
     return panels
 end
+
+function gen_cursor_quad(atlas)
+    return love.graphics.newQuad(0, 0, 18, 18, atlas:getDimensions())
+end

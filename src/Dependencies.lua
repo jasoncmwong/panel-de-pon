@@ -11,6 +11,7 @@ require 'src/Util'
 ---- CLASSES ----
 require 'src/Board'
 require 'src/Panel'
+require 'src/Cursor'
 
 ---- STATES ----
 require 'src/states/BaseState'
@@ -26,9 +27,11 @@ g_fonts = {
 
 ---- GRAPHICS ----
 g_textures = {
-    ['panels'] = love.graphics.newImage('graphics/panels.png')
+    ['panels'] = love.graphics.newImage('graphics/panels.png'),
+    ['cursor'] = love.graphics.newImage('graphics/cursor.png')
 }
 
 g_quads = {
-    ['panels'] = gen_panel_quads(g_textures['panels'])
+    ['panels'] = gen_panel_quads(g_textures['panels']),
+    ['cursor'] = love.graphics.newQuad(0, 0, 34, 18, g_textures['cursor']:getDimensions())
 }

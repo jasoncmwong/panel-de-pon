@@ -1,14 +1,15 @@
 Board = Class{}
 
-function Board:init(x, y, width, height, num_types)
-    self.x = x                      -- X position of top left corner of board
-    self.y = y                      -- Y position of top left corner of board
-    self.width = width              -- Width of board in tiles
-    self.height = height            -- Height of board in tiles
-    self.num_types = num_types      -- Number of panels to use in generation
-    self.panels = {}                -- Table of panels in the board
-
-    self:gen_board()
+function Board:init(params)
+    self.x = params.x                   -- X position of top left corner of board
+    self.y = params.y                   -- Y position of top left corner of board
+    self.width = params.width           -- Width of board in tiles
+    self.height = params.height         -- Height of board in tiles
+    self.num_types = params.num_types   -- Number of panels to use in generation
+    
+    self.cursor = Cursor({board = self, board_x = 3, board_y = 6})  -- Initialize cursor in starting position
+    self.panels = {}  -- Table of panels in the board to be filled
+    self:gen_board()  -- Initialize board
 end
 
 function Board:render()
@@ -27,6 +28,9 @@ function Board:render()
             self.panels[row][col]:render(self.x, self.y)
         end
     end
+
+    -- Render cursor
+    self.cursor:render()
 end
 
 --[[
@@ -36,9 +40,27 @@ function Board:gen_board()
     for row = 1, BOARD_HEIGHT do
         table.insert(self.panels, {})
         for col = 1, BOARD_WIDTH do
-            table.insert(self.panels[row], Panel(col, row, math.random(self.num_types)))
+            if row > 6 then
+                table.insert(self.panels[row], Panel({
+                    board = self,
+                    board_x = col,
+                    board_y = row,
+                    type = math.random(self.num_types)}))
+            else
+                table.insert(self.panels[row], Panel({
+                    empty = true
+                }))
+            end
+
         end
     end
     
     -- Determine matches until no matches are found
+end
+
+--[[
+    Translates the board coordinates of a panel to the pixel coordinates of the window
+]]
+function Board:board_to_pixel(board_x, board_y)
+    return {x = (board_x-1)*PANEL_DIM+self.x, y = (board_y-1)*PANEL_DIM+self.y}
 end
