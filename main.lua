@@ -23,6 +23,7 @@ end
 
 function love.update(dt)
     g_state_machine:update(dt)
+    love.keyboard.keys_pressed = {}
 end
 
 function love.draw()
