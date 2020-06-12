@@ -24,6 +24,8 @@ function PlayState:update()
     elseif love.keyboard.was_pressed('f') then
         self.board:swap()
     end
+
+    self.board:update()
 end
 
 function PlayState:render()

@@ -12,6 +12,10 @@ function Board:init(params)
     self:gen_board()  -- Initialize board
 end
 
+function Board:update()
+    self:replace_panels(self:get_matches(), true)
+end
+
 function Board:render()
     -- Render outline of board
     love.graphics.setColor(111/255, 203/255, 159/255, 255/255)
@@ -61,7 +65,7 @@ function Board:gen_board()
     -- Replace matched panels until no matches are found
     local matches = self:get_matches()
     while #matches ~= 0 do
-        self:replace_panels(matches)
+        self:replace_panels(matches, false)
         matches = self:get_matches()
     end
 end
@@ -220,17 +224,30 @@ function Board:finalize_match(match, matches, matched)
 end
 
 --[[
-    Replaces matches found in the board with randomly generated panels
+    Replaces matches found in the board with empty or randomly generated panels
 ]]
-function Board:replace_panels(matches)
-    for k, match in pairs(matches) do  -- Get the next match
-        for i, panel in pairs(match) do  -- Get the next panel in the current match
-            self.panels[panel.board_y][panel.board_x] = Panel {
-                board = self,
-                board_x = panel.board_x,
-                board_y = panel.board_y,
-                type = math.random(self.num_types)
-            }
+function Board:replace_panels(matches, empty)
+    if not empty then  -- Replace with randomly generated
+        for k, match in pairs(matches) do  -- Get the next match
+            for i, panel in pairs(match) do  -- Get the next panel in the current match
+                self.panels[panel.board_y][panel.board_x] = Panel {
+                    board = self,
+                    board_x = panel.board_x,
+                    board_y = panel.board_y,
+                    type = math.random(self.num_types)
+                }
+            end
+        end
+    else  -- Replace with empty
+        for k, match in pairs(matches) do  -- Get the next match
+            for i, panel in pairs(match) do  -- Get the next panel in the current match
+                self.panels[panel.board_y][panel.board_x] = Panel {
+                    board = self,
+                    board_x = panel.board_x,
+                    board_y = panel.board_y,
+                    empty = true
+                }
+            end
         end
     end
 end
