@@ -21,6 +21,8 @@ function PlayState:update()
         self.board.cursor:move(DOWN)
     elseif love.keyboard.was_pressed('right') then
         self.board.cursor:move(RIGHT)
+    elseif love.keyboard.was_pressed('f') then
+        self.board:swap()
     end
 end
 

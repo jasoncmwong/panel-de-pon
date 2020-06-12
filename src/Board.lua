@@ -234,3 +234,19 @@ function Board:replace_panels(matches)
         end
     end
 end
+
+--[[
+    Swaps the two panels hovered over by the cursor
+]]
+function Board:swap()
+    local x, y = self.cursor.board_x, self.cursor.board_y
+    local temp = self.panels[y][x]
+
+    -- Change left panel position to hold the right panel
+    self.panels[y][x] = self.panels[y][x+1]
+    self.panels[y][x].board_x = x
+
+    -- Change right panel position to hold the left panel
+    temp.board_x = x + 1
+    self.panels[y][x+1] = temp
+end
