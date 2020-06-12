@@ -18,3 +18,9 @@ PANEL_DIM = 16
 
 -- Minimum number of adjacent tiles to count as a match
 MATCH_THRESH = 3
+
+-- Cursor movement directions
+UP = 0
+LEFT = 1
+DOWN = 2
+RIGHT = 3
