@@ -15,3 +15,6 @@ BORDER_PAD = 2
 
 -- Dimensions of a panel in pixels
 PANEL_DIM = 16
+
+-- Minimum number of adjacent tiles to count as a match
+MATCH_THRESH = 3
