@@ -12,7 +12,12 @@ function Board:init(params)
     self:gen_board()  -- Initialize board
 end
 
-function Board:update()
+function Board:update(dt)
+    for row = 1, #self.panels do
+        for col = 1, #self.panels[1] do
+            self.panels[row][col]:update(dt)
+        end
+    end
     self:replace_panels(self:get_matches(), true)
 end
 
@@ -71,11 +76,17 @@ function Board:gen_board()
 end
 
 --[[
-    Translates the board coordinates of a panel to the pixel coordinates of the window
+    Translates the board X coordinate of a panel to the X pixel coordinate of the window
 ]]
-function Board:board_to_pixel(board_x, board_y)
-    return {x = (board_x-1)*PANEL_DIM + self.x,
-            y = (board_y-1)*PANEL_DIM + self.y}
+function Board:boardx_to_pixel(board_x)
+    return (board_x-1)*PANEL_DIM + self.x
+end
+
+--[[
+    Translates the board Y coordinate of a panel to the X pixel coordinate of the window
+]]
+function Board:boardy_to_pixel(board_y)
+    return (board_y-1)*PANEL_DIM + self.y
 end
 
 --[[
@@ -257,13 +268,14 @@ end
 ]]
 function Board:swap()
     local x, y = self.cursor.board_x, self.cursor.board_y
+    self.panels[y][x].stateMachine:change('swap', {direction = RIGHT})
+    self.panels[y][x+1].stateMachine:change('swap', {direction = LEFT})
+
     local temp = self.panels[y][x]
 
     -- Change left panel position to hold the right panel
     self.panels[y][x] = self.panels[y][x+1]
-    self.panels[y][x].board_x = x
 
     -- Change right panel position to hold the left panel
-    temp.board_x = x + 1
     self.panels[y][x+1] = temp
 end

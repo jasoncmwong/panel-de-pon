@@ -10,7 +10,7 @@ function PlayState:init()
     })
 end
 
-function PlayState:update()
+function PlayState:update(dt)
     if love.keyboard.was_pressed('escape') then
         love.event.quit()
     elseif love.keyboard.was_pressed('up') then
@@ -25,7 +25,7 @@ function PlayState:update()
         self.board:swap()
     end
 
-    self.board:update()
+    self.board:update(dt)
 end
 
 function PlayState:render()

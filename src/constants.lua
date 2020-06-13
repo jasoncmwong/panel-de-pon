@@ -19,8 +19,12 @@ PANEL_DIM = 16
 -- Minimum number of adjacent tiles to count as a match
 MATCH_THRESH = 3
 
--- Cursor movement directions
+-- Cursor and panel movement directions
 UP = 0
 LEFT = 1
 DOWN = 2
 RIGHT = 3
+
+-- Panel velocities for swapping and falling
+BASE_SWAP_SPD = 240  -- 60*4 (4 pixels/frame)
+BASE_FALL_SPD = 240

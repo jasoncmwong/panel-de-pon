@@ -7,8 +7,10 @@ function Cursor:init(params)
 end
 
 function Cursor:render()
-    local pixel_coords = self.board:board_to_pixel(self.board_x, self.board_y)
-    love.graphics.draw(g_textures['cursor'], g_quads['cursor'], pixel_coords.x-1, pixel_coords.y-1)
+    love.graphics.draw(g_textures['cursor'],
+                       g_quads['cursor'],
+                       self.board:boardx_to_pixel(self.board_x)-1,
+                       self.board:boardy_to_pixel(self.board_y)-1)
 end
 
 --[[
