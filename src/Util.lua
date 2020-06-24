@@ -54,3 +54,17 @@ function table.full(rows, cols, val)
     end
     return full
 end
+
+--[[
+    Reverses the indices of a table
+]]
+function table.reverse(tbl)
+    local i = 1
+    local j = #tbl
+    while i < j do
+        tbl[i], tbl[j] = tbl[j], tbl[i]
+        i = i + 1
+        j = j - 1
+    end
+    return tbl
+end
