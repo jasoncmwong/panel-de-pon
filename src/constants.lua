@@ -26,5 +26,5 @@ DOWN = 2
 RIGHT = 3
 
 -- Panel velocities for swapping and falling
-BASE_SWAP_SPD = 240  -- 60*4 (4 pixels/frame)
-BASE_FALL_SPD = 240
+BASE_SWAP_SPD = 480  -- 60*8 (8 pixels/frame)
+BASE_FALL_SPD = 60  -- Slow fall speed for debugging
