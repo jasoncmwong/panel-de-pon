@@ -13,7 +13,7 @@ function Board:init(params)
 end
 
 function Board:update(dt)
-    for row = 1, #self.panels do
+    for row = #self.panels, 1, -1 do
         for col = 1, #self.panels[1] do
             self.panels[row][col]:update(dt)
         end
@@ -30,11 +30,17 @@ function Board:render()
     love.graphics.setColor(1, 1, 1, 1)
     love.graphics.rectangle('fill', self.x, self.y, self.width*16, self.height*16)
 
-
     -- Render all panels on the board
     for row = 1, #self.panels do
         for col = 1, #self.panels[1] do
             self.panels[row][col]:render(self.x, self.y)
+            -- ### DEBUG ###
+            -- if not self.panels[row][col].empty then
+            --     love.graphics.setColor(0/255, 0/255, 0/255, 255/255)
+            --     love.graphics.setFont(g_fonts['small'])
+            --     love.graphics.printf(self.panels[row][col].board_x .. ',' .. self.panels[row][col].board_y, self.panels[row][col].x+1, self.panels[row][col].y+1, PANEL_DIM, 'left')
+            --         love.graphics.setColor(1, 1, 1, 1)
+            -- end
         end
     end
 
@@ -63,10 +69,9 @@ function Board:gen_board()
                     empty = true
                 }))
             end
-
         end
     end
-    
+
     -- Replace matched panels until no matches are found
     local matches = self:get_matches()
     while #matches ~= 0 do
@@ -102,7 +107,7 @@ function Board:get_matches()
     for row = 1, #self.panels do
         for col = 1, #self.panels[1] do
             local curr_panel = self.panels[row][col]
-            if curr_panel.empty then  -- Empty panel
+            if curr_panel.empty or curr_panel.state_machine.state_name == 'fall' then  -- Empty or falling panel
                 if match_count >= MATCH_THRESH then
                     matches, matched = self:finalize_match(table.slice(self.panels[row], col-match_count, col-1), matches, matched)
                 end
@@ -268,14 +273,21 @@ end
 ]]
 function Board:swap()
     local x, y = self.cursor.board_x, self.cursor.board_y
-    self.panels[y][x].stateMachine:change('swap', {direction = RIGHT})
-    self.panels[y][x+1].stateMachine:change('swap', {direction = LEFT})
+    if self.panels[y][x].state_machine.state_name == 'idle' and self.panels[y][x+1].state_machine.state_name == 'idle' then  -- Only idle panels can be swapped
+        self.panels[y][x].state_machine:change('swap', {direction = RIGHT})
+        self.panels[y][x+1].state_machine:change('swap', {direction = LEFT})
 
-    local temp = self.panels[y][x]
+        local temp = self.panels[y][x]
 
-    -- Change left panel position to hold the right panel
-    self.panels[y][x] = self.panels[y][x+1]
+        self:switch_positions(x, y, x+1, y)
+    end
+end
 
-    -- Change right panel position to hold the left panel
-    self.panels[y][x+1] = temp
+--[[
+    Switches two panels in the table, but does not update their board coordinates
+]]
+function Board:switch_positions(x1, y1, x2, y2)
+    local temp = self.panels[y1][x1]
+    self.panels[y1][x1] = self.panels[y2][x2]
+    self.panels[y2][x2] = temp
 end

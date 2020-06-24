@@ -19,6 +19,7 @@ require 'src/states/game/StartState'
 require 'src/states/game/PlayState'
 require 'src/states/panel/PanelIdleState'
 require 'src/states/panel/PanelSwapState'
+require 'src/states/panel/PanelFallState'
 
 ---- FONTS ----
 g_fonts = {

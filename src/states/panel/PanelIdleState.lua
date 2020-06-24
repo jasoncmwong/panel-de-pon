@@ -4,6 +4,11 @@ function PanelIdleState:init(panel)
     self.panel = panel
 end
 
+function PanelIdleState:enter()
+    self.panel.dx = 0
+    self.panel.dy = 0
+end
+
 function PanelIdleState:render()
     love.graphics.draw(g_textures['panels'],
                        g_quads['panels'][self.panel.type],
